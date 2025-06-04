@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 265 89% 66%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 265 89% 66%;
+
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .sidebar-toggle-button {
+    @apply absolute -right-3 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full border bg-background shadow-sm transition-all;
+  }
+
+  .campaign-badge {
+    @apply inline-flex items-center text-xs px-2 py-0.5 rounded-full font-medium;
+  }
+
+  .campaign-badge-active {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .campaign-badge-inactive {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .tab-active {
+    @apply text-purple-600 border-b-2 border-purple-600;
+  }
+
+  .sidebar-nav-item {
+    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none;
+  }
+
+  .sidebar-nav-item-active {
+    @apply bg-purple-50 text-purple-700 font-medium;
+  }
+}
+
+.animated-transition {
+  transition: all 0.3s ease;
+}

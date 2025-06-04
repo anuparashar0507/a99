@@ -1,0 +1,56 @@
+# build file
+update_image*.sh
+
+# Git files
+.git
+.gitignore
+
+# Python cache/virtual environments (we build one inside)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.env*
+*.env
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sublime-project
+*.sublime-workspace
+
+# Test files & coverage reports
+.pytest_cache/
+.coverage*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+tests/
+
+# Build artifacts / Distribution
+dist/
+build/
+*.egg-info/
+*.egg
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Configuration / Secrets (should be mounted or passed as env vars)
+config.yaml
+secrets.*
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
