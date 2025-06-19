@@ -69,7 +69,7 @@ const TopicPage: React.FC = () => {
   const filteredTopics = topics.filter(
     (topic) =>
       topic.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      topic.context.toLowerCase().includes(searchQuery.toLowerCase()),
+      topic.context.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const openCreateModal = () => setIsCreateModalOpen(true);

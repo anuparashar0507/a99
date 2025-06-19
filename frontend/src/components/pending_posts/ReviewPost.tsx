@@ -154,7 +154,7 @@ export const ReviewPost: React.FC<{
                         "flex space-x-2",
                         reviewMode
                           ? "w-5/6 justify-end"
-                          : "w-full justify-between items-center",
+                          : "w-full justify-between items-center"
                       )}
                     >
                       {!reviewMode && (

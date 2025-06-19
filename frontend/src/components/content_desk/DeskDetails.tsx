@@ -27,9 +27,9 @@ interface DeskDetailsProps {
   deskDetails: ApiContentDesk;
   platforms: string[];
   contentTypes: string[];
-  onSave: any;
-  isSaving: any;
-  runDesk: any;
+  onSave: (updateData: UpdateDeskRequest) => Promise<void>;
+  isSaving: boolean;
+  runDesk: () => void;
   status: GenerationStatus;
 }
 
@@ -43,7 +43,7 @@ export default function DeskDetails<DeskDetailsProps>({
   runDesk,
 }) {
   const [selectedPlatform, setSelectedPlatform] = useState<string | undefined>(
-    undefined,
+    undefined
   );
   const [selectedContentType, setSelectedContentType] = useState<
     string | undefined
@@ -62,7 +62,11 @@ export default function DeskDetails<DeskDetailsProps>({
     setSelectedContentType(deskDetails?.content_type ?? undefined);
   }, [deskDetails?.platform, deskDetails?.content_type]);
 
-  const handleSave = () => {
+  /**
+   * Unifed handler that first saves any setting changes and then runs the desk.
+   * It assumes that the `onSave` prop returns a promise that resolves upon completion.
+   */
+  const handleSaveAndRun = async () => {
     const updateData: UpdateDeskRequest = {};
     if (
       selectedPlatform !== undefined &&
@@ -77,13 +81,36 @@ export default function DeskDetails<DeskDetailsProps>({
       updateData.content_type = selectedContentType;
     }
 
-    if (Object.keys(updateData).length > 0) {
-      console.debug("Saving desk settings:", updateData); // Debug log
-      onSave(updateData); // Call parent save handler
-    } else {
-      showInfoToast("No changes to save in settings.");
+    if (!platforms.includes(selectedPlatform)) {
+      showErrorToast(
+        "Please select a Platform to start the generation process."
+      );
+      return;
     }
+    if (!contentTypes.includes(selectedContentType)) {
+      showErrorToast(
+        "Please select a Content Type to start the generation process."
+      );
+      return;
+    }
+
+    // First, save the settings if there are any changes.
+    if (Object.keys(updateData).length > 0) {
+      console.debug("Saving desk settings before running:", updateData);
+      try {
+        await onSave(updateData); // Wait for the save operation to complete.
+      } catch (error) {
+        console.error("Failed to save settings:", error);
+        // Optional: Stop execution if the save fails.
+        return;
+      }
+    }
+
+    // Then, run the desk.
+    console.debug("Running desk...");
+    runDesk();
   };
+
   return (
     <Card>
       <CardHeader>
@@ -140,23 +167,25 @@ export default function DeskDetails<DeskDetailsProps>({
       </CardContent>
       <CardFooter className="flex justify-end gap-2 border-t pt-4">
         <Button
-          variant="outline"
-          onClick={handleSave}
-          disabled={isSaving || !deskNotRunning}
-        >
-          {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-          Save Settings
-        </Button>
-        <Button
           className="bg-purple-600 hover:bg-purple-700"
-          disabled={!deskNotRunning}
-          onClick={runDesk}
+          // Disable the button if settings are being saved or the desk is already running.
+          disabled={isSaving || !deskNotRunning}
+          onClick={handleSaveAndRun}
         >
-          {!deskNotRunning ? (
+          {/* Show a spinner if saving or running */}
+          {(isSaving || !deskNotRunning) && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : null}
-          {completed ? <CircleCheck className="mr-2 h-4 w-4" /> : null}
-          Run Desk
+          )}
+          {/* Show a checkmark if completed and idle */}
+          {completed && deskNotRunning && !isSaving && (
+            <CircleCheck className="mr-2 h-4 w-4" />
+          )}
+          {/* Dynamically set button text based on the current state */}
+          {isSaving
+            ? "Saving..."
+            : !deskNotRunning
+            ? "Running..."
+            : "Save and Run Desk"}
         </Button>
       </CardFooter>
     </Card>

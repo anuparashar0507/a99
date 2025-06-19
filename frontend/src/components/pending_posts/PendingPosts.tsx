@@ -28,12 +28,6 @@ import {
 } from "@/components/ui/table";
 import { Loader } from "@/components/ui/loader";
 import ConfirmDeleteDialog from "@/components/topic/ConfirmDeleteDialog"; // Import confirmation dialog
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from "@/components/ui/tooltip";
 
 import {
   ApiPost,
@@ -45,7 +39,7 @@ import { showErrorToast, showSuccessToast } from "@/components/ui/toast.tsx";
 
 const getColumns = (
   topicId: string | undefined,
-  handleDeletePost: any,
+  handleDeletePost: any
 ): ColumnDef<ApiPost>[] => [
   {
     id: "select",
@@ -55,8 +49,8 @@ const getColumns = (
           table.getIsAllPageRowsSelected()
             ? true
             : table.getIsSomePageRowsSelected()
-              ? "indeterminate"
-              : false
+            ? "indeterminate"
+            : false
         }
         onCheckedChange={(value) => {
           table.toggleAllPageRowsSelected(!!value);
@@ -152,7 +146,9 @@ const getColumns = (
       const statusInfo = statusMap[row.original.status];
       return (
         <p
-          className={`font-medium ${statusInfo?.color ?? "text-muted-foreground"}`}
+          className={`font-medium ${
+            statusInfo?.color ?? "text-muted-foreground"
+          }`}
         >
           {statusInfo?.name ?? row.original.status}{" "}
         </p>
@@ -164,34 +160,20 @@ const getColumns = (
     header: "Actions",
     cell: ({ row }) => (
       <div className="flex items-center justify-end space-x-2 h-full">
-        <Tooltip>
-          <TooltipTrigger>
-            <ReviewPost
-              topicId={row.original.topicId}
-              post_id={row.original._id}
-              currentPost={row.original}
-              reviewMode={row.original.status === PostStatus.PENDING_REVIEW}
-            />
-          </TooltipTrigger>
-          <TooltipContent>
-            View Post Details
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              size="icon"
-              className="h-8 w-8 text-destructive/70 hover:text-destructive hover:bg-destructive/10" // Destructive styling
-              variant="ghost"
-              onClick={(e) => handleDeletePost(row.original, e)}
-            >
-              <Trash2 />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            Delete Post
-          </TooltipContent>
-        </Tooltip>
+        <ReviewPost
+          topicId={row.original.topicId}
+          post_id={row.original._id}
+          currentPost={row.original}
+          reviewMode={row.original.status === PostStatus.PENDING_REVIEW}
+        />
+        <Button
+          size="icon"
+          className="h-8 w-8 text-destructive/70 hover:text-destructive hover:bg-destructive/10" // Destructive styling
+          variant="ghost"
+          onClick={(e) => handleDeletePost(row.original, e)}
+        >
+          <Trash2 />
+        </Button>
       </div>
     ),
   },
@@ -226,7 +208,7 @@ const PendingPosts: React.FC = () => {
       setError(null);
       try {
         console.debug(
-          `Workspaceing pending posts for topic ${topicId}, page ${currentPage}`,
+          `Workspaceing pending posts for topic ${topicId}, page ${currentPage}`
         );
         const response = await postService.getPosts({
           topicId: topicId,
@@ -249,7 +231,7 @@ const PendingPosts: React.FC = () => {
         setIsFetchingPosts(false);
       }
     },
-    [topicId, pageSize],
+    [topicId, pageSize]
   );
 
   const handleDeletePost = (post: ApiPost, e: React.MouseEvent) => {
@@ -283,7 +265,7 @@ const PendingPosts: React.FC = () => {
 
   const tableColumns = useMemo(
     () => getColumns(topicId, handleDeletePost),
-    [topicId],
+    [topicId]
   );
   useEffect(() => {
     fetchPosts(page);
@@ -361,7 +343,7 @@ const PendingPosts: React.FC = () => {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   ))}
@@ -401,7 +383,7 @@ const PendingPosts: React.FC = () => {
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext(),
+                          cell.getContext()
                         )}
                       </TableCell>
                     ))}

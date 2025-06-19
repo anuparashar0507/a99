@@ -89,7 +89,7 @@ export default function ContentDesk() {
   useEffect(() => {
     if (runError) {
       showErrorToast(
-        "Something went wrong, Cant get run status. Please refresh the page.",
+        "Something went wrong, Cant get run status. Please refresh the page."
       );
     } else {
       if (status) {
@@ -128,7 +128,7 @@ export default function ContentDesk() {
         "Failed to save settings.";
       console.error(
         `Error saving settings for desk ${deskDetails._id}: ${errorMsg}`,
-        error,
+        error
       );
       showErrorToast(`Failed to save settings: ${errorMsg}`);
     } finally {
@@ -151,7 +151,7 @@ export default function ContentDesk() {
         "Failed to add content for review.";
       console.error(
         `Error adding content for review ${topicDetails._id}: ${errorMsg}`,
-        error,
+        error
       );
       showErrorToast(`Failed to add content for review: ${errorMsg}`);
     } finally {
@@ -208,7 +208,7 @@ export default function ContentDesk() {
   const handleRun = async (
     runFn: () => Promise<any>,
     deskId: string,
-    phase: string,
+    phase: string
   ) => {
     console.log(`Triggering run for phase '${phase}' on desk ${deskId}`);
     try {
@@ -221,7 +221,7 @@ export default function ContentDesk() {
         `Failed to start ${phase} process.`;
       console.error(
         `Error triggering run for ${phase} on desk ${deskId}: ${errorMsg}`,
-        error,
+        error
       );
       showErrorToast(`Failed to start ${phase} process: ${errorMsg}`);
     }
@@ -232,7 +232,7 @@ export default function ContentDesk() {
       handleRun(
         () => deskService.runIdeation(deskDetails._id),
         deskDetails._id,
-        "Ideation",
+        "Ideation"
       );
     }
   };
@@ -241,7 +241,7 @@ export default function ContentDesk() {
       handleRun(
         () => deskService.runOutline(deskDetails._id),
         deskDetails._id,
-        "Outline",
+        "Outline"
       );
     }
   };
@@ -250,11 +250,11 @@ export default function ContentDesk() {
       handleRun(
         () => deskService.runContentGeneration(deskDetails._id),
         deskDetails._id,
-        "Content Generation",
+        "Content Generation"
       );
     } else
       showErrorToast(
-        "Cannot run content generation: Desk ID or KB ID missing.",
+        "Cannot run content generation: Desk ID or KB ID missing."
       );
   };
 
@@ -263,7 +263,7 @@ export default function ContentDesk() {
       handleRun(
         () => deskService.runFullDesk(deskDetails._id),
         deskDetails._id,
-        "Full Desk",
+        "Full Desk"
       );
     } else showErrorToast("Cannot run full desk: Desk ID or KB ID missing.");
   };
@@ -271,7 +271,7 @@ export default function ContentDesk() {
   const handleSaveFeedbackGeneric = async (
     updateFn: (deskId: string, data: any) => Promise<any>,
     phase: string,
-    feedback: string,
+    feedback: string
   ) => {
     if (deskDetails?._id) {
       console.log(`Saving ${phase} feedback for desk ${deskDetails._id}`);
@@ -287,7 +287,7 @@ export default function ContentDesk() {
           `Failed to save ${phase} feedback.`;
         console.error(
           `Error saving ${phase} feedback for desk ${deskDetails._id}: ${errorMsg}`,
-          error,
+          error
         );
         showErrorToast(`Failed to save ${phase} feedback: ${errorMsg}`);
       }
@@ -299,20 +299,20 @@ export default function ContentDesk() {
     await handleSaveFeedbackGeneric(
       deskService.updateIdeationFeedback,
       "Ideation",
-      feedback,
+      feedback
     );
   };
   const handleSaveOutlineFeedback = async (feedback: string) =>
     await handleSaveFeedbackGeneric(
       deskService.updateOutlineFeedback,
       "Outline",
-      feedback,
+      feedback
     );
   const handleSaveContentFeedback = async (feedback: string) =>
     await handleSaveFeedbackGeneric(
       deskService.updateContent,
       "Content",
-      feedback,
+      feedback
     );
 
   if (isInitialLoading) {

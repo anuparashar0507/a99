@@ -18,10 +18,10 @@ export function markdownToHtml(markdownText: string) {
 
 export function htmlToMarkdown(htmlText: string) {
    const file = remark()
-     .use(rehypeParse, { emitParseErrors: true, duplicateAttribute: false })
-     .use(rehypeRemark)
-     .use(remarkStringify)
-     .processSync(htmlText);
+      .use(rehypeParse, { emitParseErrors: true, duplicateAttribute: false })
+      .use(rehypeRemark)
+      .use(remarkStringify)
+      .processSync(htmlText);
 
    return String(file);
 }

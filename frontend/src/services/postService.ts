@@ -1,5 +1,5 @@
-import api from '@/lib/api'; 
-import { PagedResponse } from '@/types/api'; 
+import api from '@/lib/api';
+import { PagedResponse } from '@/types/api';
 
 export enum PostStatus {
   PENDING_REVIEW = "pending",
@@ -7,8 +7,8 @@ export enum PostStatus {
 }
 
 export interface ApiPost {
-  id: string; 
-  created_at?: string; 
+  id: string;
+  created_at?: string;
   updated_at?: string;
   topic: string;
   context: string;
@@ -67,22 +67,22 @@ export const postService = {
     sortOrder?: number;
   }): Promise<PostsPaginatedResponse> => {
     const {
-        topicId,
-        page = 1,
-        size = 10,
-        status,
-        sortBy = 'created_at',
-        sortOrder = -1
+      topicId,
+      page = 1,
+      size = 10,
+      status,
+      sortBy = 'created_at',
+      sortOrder = -1
     } = params;
 
     // Construct query parameters, omitting undefined values
     const queryParams = {
-        pageNo: page,
-        pageSize: size,
-        topic_id: topicId,
-        status: status || undefined, // Send status only if provided and not empty
-        sort_by: sortBy,
-        sort_order: sortOrder,
+      pageNo: page,
+      pageSize: size,
+      topic_id: topicId,
+      status: status || undefined, // Send status only if provided and not empty
+      sort_by: sortBy,
+      sort_order: sortOrder,
     };
 
     try {
@@ -90,9 +90,9 @@ export const postService = {
       const response = await api.get<PostsPaginatedResponse>(`/posts/`, { params: queryParams });
       // Validate response structure
       if (!response.data || !Array.isArray(response.data.items)) {
-          console.error("Invalid paginated response structure received:", response.data);
-          // Return a default empty structure or throw error
-          return { items: [], total_items: 0, page_no: page, page_size: size, total_pages: 0 };
+        console.error("Invalid paginated response structure received:", response.data);
+        // Return a default empty structure or throw error
+        return { items: [], total_items: 0, page_no: page, page_size: size, total_pages: 0 };
       }
       return response.data;
     } catch (error) {
@@ -137,12 +137,12 @@ export const postService = {
     postId: string,
     data: UpdatePostData
   ): Promise<ApiPost> => {
-     if (!postId) throw new Error("Post ID is required for update.");
-     if (Object.keys(data).length === 0) {
-         console.warn("updatePost called with empty data object.");
-         // Optionally throw an error or return early
-         // For now, let the API call proceed, backend might handle it
-     }
+    if (!postId) throw new Error("Post ID is required for update.");
+    if (Object.keys(data).length === 0) {
+      console.warn("updatePost called with empty data object.");
+      // Optionally throw an error or return early
+      // For now, let the API call proceed, backend might handle it
+    }
     try {
       console.debug(`Updating post ${postId} with data:`, data);
       const response = await api.patch<ApiPost>(`/posts/${postId}`, data);

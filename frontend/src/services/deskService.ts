@@ -225,19 +225,19 @@ export const deskService = {
   },
 
   runFullDesk: async (
-      deskId: string,
-   ): Promise<{ message: string }> => {
-      try {
-         // Assuming endpoint exists and takes kb_id as query param
-         const response = await api.post<{ message: string }>(
-             `/desk/${deskId}/run`
-         );
-         return response.data;
-      } catch (error) {
-         console.error(`Error triggering full desk run for desk ${deskId}:`, error);
-         throw error;
-      }
-   },
+    deskId: string,
+  ): Promise<{ message: string }> => {
+    try {
+      // Assuming endpoint exists and takes kb_id as query param
+      const response = await api.post<{ message: string }>(
+        `/desk/${deskId}/run`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(`Error triggering full desk run for desk ${deskId}:`, error);
+      throw error;
+    }
+  },
 
 
   /** Status Endpoint */

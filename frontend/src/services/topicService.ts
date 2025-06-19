@@ -44,7 +44,7 @@ export const topicService = {
    getTopic: async (topicId: string): Promise<ApiTopic> => {
       try {
          const response = await api.get(`/topics/${topicId}`);
-	 return response.data;
+         return response.data;
       } catch (error) {
          console.error('Error fetching topics:', error);
          throw error;
@@ -83,22 +83,22 @@ export const topicService = {
     * Update an existing topic
     */
    updateTopic: async (topicId: string, data: UpdateTopicRequest): Promise<ApiTopic> => {
-       if (!topicId) throw new Error("Topic ID is required for update.");
-       if (Object.keys(data).length === 0) {
-            console.warn("updateTopic called with empty data.");
-            // Avoid API call if nothing to update
-            // Fetch and return current data instead? Requires getTopic call.
-            // Or throw error? Let's throw for now.
-            throw new Error("No update data provided.");
-       }
-       try {
-           // Assuming backend uses Put for partial updates
-           const response = await api.put<ApiTopic>(`/topics/${topicId}`, data);
-           return response.data;
-       } catch (error) {
-           console.error(`Error updating topic ${topicId}:`, error);
-           throw error;
-       }
+      if (!topicId) throw new Error("Topic ID is required for update.");
+      if (Object.keys(data).length === 0) {
+         console.warn("updateTopic called with empty data.");
+         // Avoid API call if nothing to update
+         // Fetch and return current data instead? Requires getTopic call.
+         // Or throw error? Let's throw for now.
+         throw new Error("No update data provided.");
+      }
+      try {
+         // Assuming backend uses Put for partial updates
+         const response = await api.put<ApiTopic>(`/topics/${topicId}`, data);
+         return response.data;
+      } catch (error) {
+         console.error(`Error updating topic ${topicId}:`, error);
+         throw error;
+      }
    },
 
 
@@ -106,15 +106,15 @@ export const topicService = {
     * Delete an existing topic by its ID.
     */
    deleteTopic: async (topicId: string): Promise<void> => {
-       if (!topicId) throw new Error("Topic ID is required for deletion.");
-       try {
-           // Assuming backend returns 200/204 No Content on successful deletion
-           await api.delete(`/topics/${topicId}`);
-           // No explicit return needed if backend sends no content
-       } catch (error) {
-           console.error(`Error deleting topic ${topicId}:`, error);
-           // Re-throw for the UI to handle
-           throw error;
-       }
+      if (!topicId) throw new Error("Topic ID is required for deletion.");
+      try {
+         // Assuming backend returns 200/204 No Content on successful deletion
+         await api.delete(`/topics/${topicId}`);
+         // No explicit return needed if backend sends no content
+      } catch (error) {
+         console.error(`Error deleting topic ${topicId}:`, error);
+         // Re-throw for the UI to handle
+         throw error;
+      }
    },
 };

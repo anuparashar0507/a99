@@ -113,7 +113,7 @@ const EditTopicDialog: React.FC<EditTopicDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex flex-col max-h-[90vh]">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Edit Topic</DialogTitle>
           <DialogDescription>
@@ -122,7 +122,7 @@ const EditTopicDialog: React.FC<EditTopicDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="p-1 overflow-y-auto space-y-4 py-4">
+        <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="topic-name" className="text-sm font-medium">
               Topic
@@ -166,7 +166,7 @@ const EditTopicDialog: React.FC<EditTopicDialogProps> = ({
               Cancel
             </Button>
           </DialogClose>
-          <Button className="bg-purple-600 hover:bg-purple-700" type="button" onClick={handleSaveChanges} disabled={isSaving}>
+          <Button type="button" onClick={handleSaveChanges} disabled={isSaving}>
             {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Save Changes
           </Button>
